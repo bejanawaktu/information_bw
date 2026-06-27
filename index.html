@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Roll Frameless - Cleanest</title>
+    <title>Panoramic Seamless Roll - Rapi & Clean</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -20,15 +20,14 @@
             padding: 10px;
         }
 
-        /* Container dibuat 100% transparan tanpa kotak & tanpa bayangan */
+        /* Container frameless */
         .slider-container {
             width: 100%;
             max-width: 400px;
+            height: 380px; /* Fix height biar kerasa kayak satu canvas panjang */
             overflow-x: auto; 
-            background-color: transparent; /* Bikin tembus pandang */
-            box-shadow: none; /* Ilangin semua efek frame/kartu */
+            background-color: transparent; 
             -webkit-overflow-scrolling: touch; 
-            
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -40,81 +39,122 @@
         .slider-track {
             display: flex;
             width: max-content;
+            height: 100%;
         }
 
-        .slide-item {
-            width: 280px; 
-            padding: 24px 20px; /* Padding dikurangi dikit biar pas di layout frameless */
+        /* INI KUNCI UTAMANYA: Satu canvas panjang, gak ada kotak/border */
+        .panoramic-canvas {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-right: 1px solid rgba(0, 0, 0, 0.08); /* Garis kolom super halus */
+            flex-direction: row;
+            align-items: center; /* Semua elemen sejajar rapi di tengah */
+            height: 100%;
+            padding: 0 40px; 
+            gap: 70px; /* Jarak antar elemen dibikin lega biar nyambung bebas */
         }
 
-        .slide-item:last-child {
-            border-right: none;
+        /* Block teks biar konsisten lebarnya */
+        .creative-block {
+            width: 290px;
         }
 
-        /* === STYLING PROFIL === */
-        .profile-header {
-            text-align: center;
+        /* === STYLING PROFIL (KIRI) === */
+        .profile-group {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+            width: 360px;
         }
 
         .profile-pic {
-            width: 110px;
-            height: 110px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 16px;
             border: 2px solid #000000;
+            flex-shrink: 0;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.05); 
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .profile-name {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 800;
-            color: #000000; 
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            color: #000000;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
         }
 
         .profile-title {
             font-size: 13px;
-            color: #666666; 
-            margin-bottom: 16px;
+            color: #555555;
+            margin-bottom: 12px;
             line-height: 1.4;
         }
 
         .profile-handle {
-            display: inline-block;
-            background: #000000; 
-            color: #ffffff; 
-            padding: 6px 18px;
+            background: #000000;
+            color: #ffffff;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
             text-decoration: none;
         }
 
-        /* === STYLING TEKS === */
-        .slide-text {
-            font-size: 14px;
-            line-height: 1.7;
-            color: #444444; 
+        /* === STYLING TEKS (TENGAH & KANAN) === */
+        .canvas-text {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: #333333;
         }
 
-        .slide-text span {
-            color: #000000; 
+        .canvas-text span {
+            color: #000000;
             font-weight: 700;
+            background-color: rgba(0, 0, 0, 0.04); 
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .closing-group {
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            padding-right: 40px; 
+        }
+
+        /* Quote akhir dibikin ukurannya sama kayak teks biasa, cuma italic & bold dikit */
+        .highlight-quote {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #000000;
+            line-height: 1.8;
+            margin: 16px 0;
+            font-style: italic;
         }
 
         .signature {
-            margin-top: auto;
-            padding-top: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #000000; 
-            text-align: right;
-            border-top: 1px solid rgba(0, 0, 0, 0.08); 
+            font-size: 13px;
+            font-weight: 700;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .signature span {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: #666666;
+            margin-top: 4px;
+            text-transform: none;
+            letter-spacing: 0;
         }
     </style>
 </head>
@@ -123,34 +163,46 @@
     <div class="slider-container" id="scrollContainer">
         <div class="slider-track">
             
-            <div class="slide-item profile-header">
-                <img src="https://via.placeholder.com/150" alt="ANEST Profile" class="profile-pic">
-                <div class="profile-name">ANEST</div>
-                <div class="profile-title">Portrait & Commercial Photographer based di Jakarta.</div>
-                <a href="https://instagram.com/bejanawaktu" target="_blank" rel="noopener noreferrer" class="profile-handle">@bejanawaktu</a>
-            </div>
+            <div class="panoramic-canvas">
+                
+                <!-- BAGIAN 1: PROFIL DIBIKIN HORIZONTAL -->
+                <div class="profile-group">
+                    <img src="https://www.image2url.com/r2/default/images/1782540810359-2f4b8303-678e-49ef-9d9c-8588bdd1b77e.png" alt="ANEST Profile" class="profile-pic">
+                    <div class="profile-info">
+                        <div class="profile-name">ANEST</div>
+                        <div class="profile-title">Portrait & Commercial Photographer based di Jakarta.</div>
+                        <a href="https://instagram.com/bejanawaktu" target="_blank" rel="noopener noreferrer" class="profile-handle">@bejanawaktu</a>
+                    </div>
+                </div>
 
-            <div class="slide-item">
-                <div class="slide-text">
-                    Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk <span>client commercial</span>, saya juga aktif berbagi ilmu di <span>workshop dan webinar</span> yang diadakan oleh <span>@photoacademy.id</span> baik yang semi private (5-10 peserta) maupun private 1 on 1.
+                <!-- BAGIAN 2: TEKS RAPI DI TENGAH -->
+                <div class="creative-block">
+                    <div class="canvas-text">
+                        Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk client commercial, saya juga aktif berbagi ilmu di workshop dan webinar yang diadakan oleh <span>@photoacademy.id</span> baik yang semi private (5-10 peserta) maupun private 1 on 1.
+                    </div>
                 </div>
-            </div>
 
-            <div class="slide-item">
-                <div class="slide-text">
-                    Workshop ini biasanya terbagi menjadi workshop <span>basic studio lighting</span> (flash dan mix lighting), workshop <span>basic portrait retouching</span>, dan workshop <span>advanced lighting</span>. Selain itu, ada webinar-webinar juga yang biasanya mengundang narasumber lain dengan expertise masing-masing.
+                <!-- BAGIAN 3: TEKS RAPI DI TENGAH -->
+                <div class="creative-block">
+                    <div class="canvas-text">
+                        Workshop ini biasanya terbagi menjadi workshop <span>basic studio lighting</span> (flash dan mix lighting), workshop <span>basic portrait retouching</span>, dan workshop <span>advanced lighting</span>. Selain itu, ada webinar-webinar juga yang biasanya mengundang narasumber lain dengan expertise masing-masing.
+                    </div>
                 </div>
-            </div>
 
-            <div class="slide-item">
-                <div class="slide-text" style="margin-bottom: 20px;">
-                    Di page ini kalian akan menemukan banyak cara belajar mulai dari <span>ebook, rekaman workshop, video course</span>, dan berbagai konten lainnya. 
-                    <br><br>
-                    Semoga apa yang gue bikin bisa membantu kalian untuk <span>step into the world of commercial photography</span>.
+                <!-- BAGIAN 4: PENUTUP (UKURAN TEKS NORMAL) -->
+                <div class="closing-group">
+                    <div class="canvas-text">
+                        Di page ini kalian akan menemukan banyak cara belajar mulai dari ebook, rekaman workshop, video course, dan berbagai konten lainnya.
+                    </div>
+                    <div class="highlight-quote">
+                        "Semoga apa yang gue bikin bisa membantu kalian untuk step into the world of commercial photography."
+                    </div>
+                    <div class="signature">
+                        Agnest Riansyah
+                        <span>founder @photoacademy.id</span>
+                    </div>
                 </div>
-                <div class="signature">
-                    Agnest Riansyah<br>founder @photoacademy.id
-                </div>
+
             </div>
 
         </div>
@@ -160,14 +212,16 @@
         const container = document.getElementById('scrollContainer');
         let isPaused = false;
         let direction = 1; 
-        let speed = 0.6; 
+        let speed = 0.7; 
 
         function autoScroll() {
             if (!isPaused) {
                 container.scrollLeft += speed * direction;
+                
                 if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 1)) {
                     direction = -1;
-                } else if (container.scrollLeft <= 0) {
+                } 
+                else if (container.scrollLeft <= 0) {
                     direction = 1;
                 }
             }
