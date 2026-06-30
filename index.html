@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panoramic Seamless Roll - Rapi, Clean & Minimalist</title>
+    <title>Panoramic Seamless Roll - Clean & Minimalist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,800;1,700&display=swap" rel="stylesheet">
     <style>
         * { 
             box-sizing: border-box; 
@@ -13,7 +14,7 @@
 
         body {
             background-color: transparent;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,12 +22,33 @@
             min-height: 100vh;
         }
 
+        /* Wrapper baru buat nampung hint swipe dan slider */
+        .slider-wrapper {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        /* Hint swipe di kanan atas */
+        .swipe-hint {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            font-size: 9px;
+            font-weight: 500;
+            color: #888888;
+            padding-right: 20px;
+            margin-bottom: -15px; /* Narik slider sedikit ke atas biar rapat */
+            z-index: 10;
+            position: relative;
+        }
+
         /* Container frameless */
         .slider-container {
             width: 100%;
-            max-width: 420px;
-            height: auto; /* Tinggi dilepas biar ngikutin teks (persegi panjang) */
-            padding: 30px 0; /* Kasih napas atas bawah dikit biar tetap aesthetic */
+            height: auto;
+            padding: 25px 0; 
             overflow-x: auto; 
             background-color: transparent; 
             -webkit-overflow-scrolling: touch; 
@@ -43,21 +65,20 @@
             width: max-content;
         }
 
-        /* Canvas diperbaiki biar gap tipis dan seamless */
+        /* Canvas diperbaiki, gap dikecilin biar rapet */
         .panoramic-canvas {
             display: flex;
             flex-direction: row;
             align-items: center; 
             padding: 0 20px; 
-            gap: 30px; 
+            gap: 16px; /* Gap diturunin dari 30px ke 16px */
         }
 
-        /* Block diseragamkan lebarnya biar rapi */
+        /* Lebar block disesuaikan biar lebih padat */
         .creative-block {
-            width: 320px;
+            width: 280px; /* Diturunin dari 320px biar antar slide lebih deket */
             display: flex;
             flex-direction: column;
-            gap: 12px;
         }
 
         /* === STYLING PROFIL (KIRI) === */
@@ -65,7 +86,7 @@
             display: flex;
             align-items: center;
             gap: 16px; 
-            width: 340px;
+            width: 330px;
         }
 
         .profile-pic {
@@ -84,7 +105,6 @@
             align-items: flex-start;
         }
 
-        /* Semua ukuran font diturunin 1px biar lebih proporsional */
         .profile-name {
             font-size: 23px;
             font-weight: 800;
@@ -115,24 +135,9 @@
             transform: translateY(-2px);
         }
 
-        /* === STYLING TEKS & ILUSTRASI (TENGAH & KANAN) === */
-        .icon-accent {
-            width: 32px;
-            height: 32px;
-            background-color: #FEE2E2; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .icon-accent.blue { background-color: #E0F2FE; } 
-        .icon-accent.yellow { background-color: #FEF08A; } 
-
+        /* === STYLING TEKS (TENGAH & KANAN) === */
         .canvas-text {
-            font-size: 13.5px; /* Turun 1px dari sebelumnya 14.5px */
+            font-size: 13.5px;
             line-height: 1.7;
             color: #333333;
         }
@@ -145,9 +150,9 @@
             border-radius: 4px;
         }
 
-        /* Block khusus buat Quote & Signature biar dapet spotlight */
+        /* Block khusus buat Quote & Signature */
         .quote-block {
-            width: 320px;
+            width: 290px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -155,7 +160,7 @@
         }
 
         .highlight-quote {
-            font-size: 15px; /* Turun 1px dari sebelumnya 16px */
+            font-size: 15px;
             font-weight: 700;
             color: #000000;
             line-height: 1.6;
@@ -167,7 +172,7 @@
         }
 
         .signature {
-            font-size: 12px; /* Turun 1px */
+            font-size: 12px;
             font-weight: 700;
             color: #000000;
             text-transform: uppercase;
@@ -176,7 +181,7 @@
 
         .signature span {
             display: block;
-            font-size: 10px; /* Turun 1px */
+            font-size: 10px;
             font-weight: 500;
             color: #888888;
             margin-top: 4px;
@@ -187,53 +192,60 @@
 </head>
 <body>
 
-    <div class="slider-container" id="scrollContainer">
-        <div class="slider-track">
-            
-            <div class="panoramic-canvas">
+    <div class="slider-wrapper">
+        <div class="swipe-hint">
+            Swipe to read
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+            </svg>
+        </div>
+
+        <div class="slider-container" id="scrollContainer">
+            <div class="slider-track">
                 
-                <div class="profile-group">
-                    <img src="https://www.image2url.com/r2/default/images/1782540810359-2f4b8303-678e-49ef-9d9c-8588bdd1b77e.png" alt="ANEST Profile" class="profile-pic">
-                    <div class="profile-info">
-                        <div class="profile-name">ANEST</div>
-                        <div class="profile-title">Portrait & Commercial Photographer based di Jakarta.</div>
-                        <a href="https://instagram.com/bejanawaktu" target="_blank" rel="noopener noreferrer" class="profile-handle">@bejanawaktu</a>
+                <div class="panoramic-canvas">
+                    
+                    <div class="profile-group">
+                        <img src="https://www.image2url.com/r2/default/images/1782540810359-2f4b8303-678e-49ef-9d9c-8588bdd1b77e.png" alt="ANEST Profile" class="profile-pic">
+                        <div class="profile-info">
+                            <div class="profile-name">ANEST</div>
+                            <div class="profile-title">Portrait & Commercial Photographer based di Jakarta.</div>
+                            <a href="https://instagram.com/bejanawaktu" target="_blank" rel="noopener noreferrer" class="profile-handle">@bejanawaktu</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="creative-block">
-                    <div class="icon-accent">✨</div>
-                    <div class="canvas-text">
-                        Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk client commercial, saya juga aktif berbagi ilmu di workshop dan webinar yang diadakan oleh <span>@photoacademy.id</span> baik semi private (5-10 peserta) maupun private 1-on-1.
+                    <div class="creative-block">
+                        <div class="canvas-text">
+                            Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk client commercial, saya juga aktif berbagi ilmu di workshop dan webinar yang diadakan oleh <span>@photoacademy.id</span> baik semi private (5-10 peserta) maupun private 1-on-1.
+                        </div>
                     </div>
-                </div>
 
-                <div class="creative-block">
-                    <div class="icon-accent blue">💡</div>
-                    <div class="canvas-text">
-                        Workshop ini terbagi menjadi <span>basic studio lighting</span> (flash & mix lighting), <span>basic portrait retouching</span>, dan <span>advanced lighting</span>. Ada juga webinar dengan narasumber lain dengan expertise masing-masing.
+                    <div class="creative-block">
+                        <div class="canvas-text">
+                            Workshop ini terbagi menjadi <span>basic studio lighting</span> (flash & mix lighting), <span>basic portrait retouching</span>, dan <span>advanced lighting</span>. Ada juga webinar dengan narasumber lain dengan expertise masing-masing.
+                        </div>
                     </div>
-                </div>
 
-                <div class="creative-block">
-                    <div class="icon-accent yellow">📚</div>
-                    <div class="canvas-text">
-                        Di page ini kalian akan menemukan banyak cara belajar mulai dari ebook, rekaman workshop, hingga berbagai macam video course.
+                    <div class="creative-block">
+                        <div class="canvas-text">
+                            Di page ini kalian akan menemukan banyak cara belajar mulai dari ebook, rekaman workshop, hingga berbagai macam video course.
+                        </div>
                     </div>
-                </div>
 
-                <div class="quote-block">
-                    <div class="highlight-quote">
-                        "Semoga apa yang gue bikin bisa membantu kalian untuk step into the world of commercial photography."
+                    <div class="quote-block">
+                        <div class="highlight-quote">
+                            "Semoga apa yang gue bikin bisa membantu kalian untuk step into the world of commercial photography."
+                        </div>
+                        <div class="signature">
+                            Agnest Riansyah
+                            <span>founder @photoacademy.id</span>
+                        </div>
                     </div>
-                    <div class="signature">
-                        Agnest Riansyah
-                        <span>founder @photoacademy.id</span>
-                    </div>
+
                 </div>
 
             </div>
-
         </div>
     </div>
 
