@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panoramic Seamless Roll - Rapi & Clean</title>
+    <title>Panoramic Seamless Roll - Rapi, Clean & Minimalist</title>
     <style>
         * { 
             box-sizing: border-box; 
@@ -18,13 +18,14 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
+            min-height: 100vh;
         }
 
         /* Container frameless */
         .slider-container {
             width: 100%;
-            max-width: 400px;
-            height: 380px; /* Fix height biar kerasa kayak satu canvas panjang */
+            max-width: 420px;
+            height: 380px; 
             overflow-x: auto; 
             background-color: transparent; 
             -webkit-overflow-scrolling: touch; 
@@ -42,37 +43,40 @@
             height: 100%;
         }
 
-        /* INI KUNCI UTAMANYA: Satu canvas panjang, gak ada kotak/border */
+        /* Canvas diperbaiki biar gap tipis dan seamless */
         .panoramic-canvas {
             display: flex;
             flex-direction: row;
-            align-items: center; /* Semua elemen sejajar rapi di tengah */
+            align-items: center; 
             height: 100%;
-            padding: 0 40px; 
-            gap: 70px; /* Jarak antar elemen dibikin lega biar nyambung bebas */
+            padding: 0 20px; 
+            gap: 30px; 
         }
 
-        /* Block teks biar konsisten lebarnya */
+        /* Block diseragamkan lebarnya biar rapi */
         .creative-block {
-            width: 290px;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         /* === STYLING PROFIL (KIRI) === */
         .profile-group {
             display: flex;
             align-items: center;
-            gap: 20px; 
-            width: 360px;
+            gap: 16px; 
+            width: 340px;
         }
 
         .profile-pic {
-            width: 130px;
-            height: 130px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #000000;
             flex-shrink: 0;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.05); 
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.06); 
         }
 
         .profile-info {
@@ -82,7 +86,7 @@
         }
 
         .profile-name {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #000000;
             letter-spacing: -0.5px;
@@ -104,38 +108,62 @@
             font-size: 12px;
             font-weight: 700;
             text-decoration: none;
+            transition: transform 0.2s ease;
         }
 
-        /* === STYLING TEKS (TENGAH & KANAN) === */
+        .profile-handle:hover {
+            transform: translateY(-2px);
+        }
+
+        /* === STYLING TEKS & ILUSTRASI (TENGAH & KANAN) === */
+        .icon-accent {
+            width: 32px;
+            height: 32px;
+            background-color: #FEE2E2; /* Warna pastel soft red */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .icon-accent.blue { background-color: #E0F2FE; } /* Pastel blue */
+        .icon-accent.yellow { background-color: #FEF08A; } /* Pastel yellow */
+
         .canvas-text {
             font-size: 14.5px;
-            line-height: 1.8;
+            line-height: 1.7;
             color: #333333;
         }
 
         .canvas-text span {
             color: #000000;
             font-weight: 700;
-            background-color: rgba(0, 0, 0, 0.04); 
+            background-color: #F3F4F6;
             padding: 2px 6px;
             border-radius: 4px;
         }
 
-        .closing-group {
-            width: 340px;
+        /* Block khusus buat Quote & Signature biar dapet spotlight */
+        .quote-block {
+            width: 320px;
             display: flex;
             flex-direction: column;
-            padding-right: 40px; 
+            justify-content: center;
+            padding-right: 20px; 
         }
 
-        /* Quote akhir dibikin ukurannya sama kayak teks biasa, cuma italic & bold dikit */
         .highlight-quote {
-            font-size: 14.5px;
+            font-size: 16px;
             font-weight: 700;
             color: #000000;
-            line-height: 1.8;
-            margin: 16px 0;
+            line-height: 1.6;
+            margin-bottom: 16px;
             font-style: italic;
+            position: relative;
+            padding-left: 16px;
+            border-left: 4px solid #FBCFE8; /* Aksen garis pastel pink */
         }
 
         .signature {
@@ -144,14 +172,13 @@
             color: #000000;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 10px;
         }
 
         .signature span {
             display: block;
             font-size: 11px;
             font-weight: 500;
-            color: #666666;
+            color: #888888;
             margin-top: 4px;
             text-transform: none;
             letter-spacing: 0;
@@ -165,7 +192,7 @@
             
             <div class="panoramic-canvas">
                 
-                <!-- BAGIAN 1: PROFIL DIBIKIN HORIZONTAL -->
+                <!-- BAGIAN 1: PROFIL -->
                 <div class="profile-group">
                     <img src="https://www.image2url.com/r2/default/images/1782540810359-2f4b8303-678e-49ef-9d9c-8588bdd1b77e.png" alt="ANEST Profile" class="profile-pic">
                     <div class="profile-info">
@@ -175,25 +202,32 @@
                     </div>
                 </div>
 
-                <!-- BAGIAN 2: TEKS RAPI DI TENGAH -->
+                <!-- BAGIAN 2: TEKS 1 -->
                 <div class="creative-block">
+                    <div class="icon-accent">✨</div>
                     <div class="canvas-text">
-                        Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk client commercial, saya juga aktif berbagi ilmu di workshop dan webinar yang diadakan oleh <span>@photoacademy.id</span> baik yang semi private (5-10 peserta) maupun private 1 on 1.
+                        Selama <span>3 tahun ke belakang</span>, selain masih aktif memotret untuk client commercial, saya juga aktif berbagi ilmu di workshop dan webinar yang diadakan oleh <span>@photoacademy.id</span> baik semi private (5-10 peserta) maupun private 1-on-1.
                     </div>
                 </div>
 
-                <!-- BAGIAN 3: TEKS RAPI DI TENGAH -->
+                <!-- BAGIAN 3: TEKS 2 -->
                 <div class="creative-block">
+                    <div class="icon-accent blue">💡</div>
                     <div class="canvas-text">
-                        Workshop ini biasanya terbagi menjadi workshop <span>basic studio lighting</span> (flash dan mix lighting), workshop <span>basic portrait retouching</span>, dan workshop <span>advanced lighting</span>. Selain itu, ada webinar-webinar juga yang biasanya mengundang narasumber lain dengan expertise masing-masing.
+                        Workshop ini terbagi menjadi <span>basic studio lighting</span> (flash & mix lighting), <span>basic portrait retouching</span>, dan <span>advanced lighting</span>. Ada juga webinar dengan narasumber lain dengan expertise masing-masing.
                     </div>
                 </div>
 
-                <!-- BAGIAN 4: PENUTUP (UKURAN TEKS NORMAL) -->
-                <div class="closing-group">
+                <!-- BAGIAN 4: PENGANTAR PENUTUP -->
+                <div class="creative-block">
+                    <div class="icon-accent yellow">📚</div>
                     <div class="canvas-text">
-                        Di page ini kalian akan menemukan banyak cara belajar mulai dari ebook, rekaman workshop, video course, dan berbagai konten lainnya.
+                        Di page ini kalian akan menemukan banyak cara belajar mulai dari ebook, rekaman workshop, hingga berbagai macam video course.
                     </div>
+                </div>
+
+                <!-- BAGIAN 5: QUOTE & SIGNATURE (STAND ALONE) -->
+                <div class="quote-block">
                     <div class="highlight-quote">
                         "Semoga apa yang gue bikin bisa membantu kalian untuk step into the world of commercial photography."
                     </div>
@@ -212,7 +246,7 @@
         const container = document.getElementById('scrollContainer');
         let isPaused = false;
         let direction = 1; 
-        let speed = 0.7; 
+        let speed = 0.6; 
 
         function autoScroll() {
             if (!isPaused) {
